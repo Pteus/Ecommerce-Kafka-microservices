@@ -14,7 +14,7 @@ public sealed class ProductDbContext : DbContext
     {
         modelBuilder.Entity<ProductModel>().HasData(new ProductModel { Id = 1, Name = "Apple", Quantity = 20, Price = 10 });
         modelBuilder.Entity<ProductModel>().HasData(new ProductModel { Id = 2, Name = "Orange", Quantity = 15, Price = 15 });
-        modelBuilder.Entity<ProductModel>().HasData(new ProductModel { Id = 2, Name = "Banana", Quantity = 5, Price = 20 });
+        modelBuilder.Entity<ProductModel>().HasData(new ProductModel { Id = 3, Name = "Banana", Quantity = 5, Price = 20 });
         
         base.OnModelCreating(modelBuilder);
     }
