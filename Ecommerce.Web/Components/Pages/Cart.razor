@@ -1,0 +1,51 @@
+@page "/cart/{ProductId:int}"
+@rendermode InteractiveServer
+@using Ecommerce.Model
+@using Ecommerce.Web.Service
+@inject ProductService ProductService
+@inject OrderService OrderService
+@inject IJSRuntime JsRuntime
+@inject ILogger<Cart> Logger;
+<h3>Cart</h3>
+
+<form>
+    <div class="form-group mb-4">
+        <label>Customer name</label>
+        <input type="text" class="form-control" @bind="_order.CustomerName"/>
+    </div> 
+    <div class="form-group mb-4">
+        <label>Product name</label>
+        <input type="text" class="form-control" @bind="_product.Name"/>
+    </div>
+    <div class="form-group mb-4">
+        <label>Quantity</label>
+        <input type="text" class="form-control" @bind="_product.Quantity"/>
+    </div>
+    <button type="button" class="btn btn-primary" @onclick="CreateOrder">Create order</button>
+</form>
+
+@code {
+    [Parameter] public int ProductId { get; set; }
+    private OrderModel _order = new();
+    private ProductModel _product = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        Logger.LogInformation("OnInitializedAsync");
+        _order.ProductId = ProductId;
+        _product = await ProductService.GetProductAsync(ProductId);
+        await base.OnInitializedAsync();
+    }
+
+    private async Task CreateOrder()
+    {
+        Logger.LogInformation("CreateOrder");
+        var success = await OrderService.CreateOrder(_order);
+        Logger.LogInformation("CreateOrder after");
+        if (success)
+        {
+            await JsRuntime.InvokeVoidAsync("alert", "Create order success");
+        }
+    }
+
+}

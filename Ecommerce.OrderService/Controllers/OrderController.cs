@@ -14,5 +14,14 @@ namespace Ecommerce.OrderService.Controllers
         {
             return await dbContext.Orders.ToListAsync();
         }
+
+        [HttpPost]
+        public async Task<OrderModel> CreateOrder(OrderModel order)
+        {
+            order.OrderDate = DateTime.Now;
+            dbContext.Orders.Add(order);
+            await dbContext.SaveChangesAsync();
+            return order;
+        }
     }
 }

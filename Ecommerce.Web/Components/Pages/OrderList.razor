@@ -1,0 +1,39 @@
+@page "/orders"
+@using Ecommerce.Model
+@using Ecommerce.Web.Service
+@inject OrderService OrderService
+
+<h3>OrderList</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>CustomerName</th>
+            <th>ProductId</th>
+            <th>Quantity</th>
+            <th>OrderDate</th>
+        </tr>
+    </thead>
+    <tbody>
+    @foreach (var order in _orders)
+    {
+        <tr>
+            <td>@order.CustomerName</td>
+            <td>@order.ProductId</td>
+            <td>@order.Quantity</td>
+            <td>@order.OrderDate</td>
+        </tr> 
+    }
+    </tbody>
+</table>
+
+@code {
+    private List<OrderModel> _orders = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        _orders = await OrderService.GetOrdersAsync();
+        await base.OnInitializedAsync();
+    }
+
+}

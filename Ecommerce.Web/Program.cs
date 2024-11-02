@@ -1,10 +1,23 @@
 using Ecommerce.Web.Components;
+using Ecommerce.Web.Service;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+
+builder.Services.AddHttpClient<ProductService>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5190/api/");
+});
+
+builder.Services.AddHttpClient<OrderService>(client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5177/api/");
+});
+
 
 var app = builder.Build();
 
